@@ -6,43 +6,45 @@
     <title>โปรแกรมคำนวณวันเดินทางไปราชการ</title>
     <style>
       body {
-        /* font-family: "Arial", sans-serif;
-        background-color: #F0F0F2;
-        color: #333; */
         font-family: "Arial", sans-serif;
-        background-color: #eaf4f8; /* พื้นหลังสีฟ้าอ่อน */
-        color: #34495e; /* สีตัวอักษรหลัก */
+        background-color: #eaf4f8;
+        /* พื้นหลังสีฟ้าอ่อน */
+        color: #34495e;
+        /* สีตัวอักษรหลัก */
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
         margin: 0;
       }
+
       .container {
         display: flex;
-        /* background: white; */
+        flex-wrap: wrap;
+        /* ทำให้สามารถมีหลายแถว */
+        max-width: 90%;
+        /* กำหนดความกว้างสูงสุด */
+        margin: auto;
+        /* จัดกลาง */
+        padding: 20px;
+        /* ลด padding */
         background: #ffffff;
-        padding: 40px;
         border-radius: 8px;
-        /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); */
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        width: 800px;
-        text-align: left;
-        /* transition: transform 0.2s; */
-        transition: transform 0.2s;
       }
-      .container:hover {
-        transform: scale(1.02);
-      }
+
       .inputs {
         flex: 1;
+        min-width: 300px;
+        /* ให้มีความกว้างขั้นต่ำ */
       }
+
       .result {
         margin-left: 20px;
         width: 300px;
         padding: 20px;
-        /* background-color: #bddef2; */
-        background-color: #d1ecf1; /* พื้นหลังสีฟ้าอ่อน */
+        background-color: #d1ecf1;
+        /* พื้นหลังสีฟ้าอ่อน */
         border-radius: 8px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         flex-shrink: 0;
@@ -51,23 +53,7 @@
         justify-content: center;
         align-items: center;
       }
-      .result-title {
-        font-size: 24px;
-        font-weight: bold;
 
-        margin-bottom: 10px;
-      }
-      .result-subtitle {
-        font-size: 16px;
-        font-weight: bold;
-        color: #333;
-        margin-top: 10px;
-      }
-      .result-item {
-        font-size: 16px;
-        color: #333;
-        margin: 5px 0;
-      }
       input {
         margin: 10px 0;
         padding: 10px;
@@ -77,15 +63,10 @@
         box-sizing: border-box;
         transition: border-color 0.3s;
       }
-      input:focus {
-        border-color: #4caf50;
-        outline: none;
-      }
+
       button {
         margin-top: 10px;
         padding: 10px;
-        /* background-color: #4caf50;
-        color: white; */
         background-color: #17a2b8;
         color: white;
         border: none;
@@ -93,34 +74,64 @@
         cursor: pointer;
         width: 100%;
         transition: background-color 0.3s, transform 0.2s;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* เพิ่มเงา */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        /* เพิ่มเงา */
       }
+
       button:hover {
         background-color: #45a049;
         transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* เพิ่มเงาเมื่อ hover */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        /* เพิ่มเงาเมื่อ hover */
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          flex-direction: column;
+          /* เปลี่ยนแนวจากแนวนอนเป็นแนวตั้ง */
+        }
+
+        .result {
+          width: 100%;
+          /* ทำให้ผลลัพธ์กว้างเต็มที่ */
+          margin-left: 0;
+          /* เอาช่องว่างด้านซ้ายออก */
+        }
+      }
+
+      @media (max-width: 480px) {
+        .result {
+          margin-left: 0;
+          /* เอาช่องว่างด้านซ้ายออก */
+          width: 100%;
+          /* ทำให้ผลลัพธ์กว้างเต็มที่ */
+        }
+
+        .inputs {
+          margin-bottom: 10px;
+          /* ลดช่องว่างระหว่างส่วน */
+        }
       }
     </style>
   </head>
+
   <body>
     <div class="container">
       <div class="inputs">
-        <h1
+        <h1 
           style="
             font-size: 24px;
             color: #000000;
             text-align: center;
             margin-bottom: 20px;
             font-weight: bold;
-          "
-        >
+          ">
           โปรแกรมคำนวณวันเดินทางไปราชการ
         </h1>
-
-        <label for="startDateTime">วันและเวลาเดินทางไป:</label><br />
+        <label for="startDateTime">วันและเวลาเริ่มต้น:</label><br />
         <input type="datetime-local" id="startDateTime" /><br />
 
-        <label for="endDateTime">วันและเวลาเดินทางกลับ:</label><br />
+        <label for="endDateTime">วันและเวลาสิ้นสุด:</label><br />
         <input type="datetime-local" id="endDateTime" /><br />
 
         <label for="daysToSubtract">จำนวนวันหยุด:</label><br />
@@ -131,27 +142,9 @@
       <div class="result">
         <div class="result-title">ผลลัพธ์</div>
         <div class="result-subtitle">จำนวนวัน และ ชั่วโมง</div>
-        <input
-          type="text"
-          id="resultDays"
-          readonly
-          placeholder="จำนวนวัน"
-          style="width: 100%; margin-top: 10px"
-        />
-        <input
-          type="text"
-          id="resultHours"
-          readonly
-          placeholder="จำนวนชั่วโมง"
-          style="width: 100%; margin-top: 10px"
-        />
-        <input
-          type="text"
-          id="resultMinutes"
-          readonly
-          placeholder="จำนวนนาที"
-          style="width: 100%; margin-top: 10px"
-        />
+        <input type="text" id="resultDays" readonly placeholder="จำนวนวัน" style="width: 100%; margin-top: 10px"/>
+        <input type="text" id="resultHours" readonly placeholder="จำนวนชั่วโมง" style="width: 100%; margin-top: 10px"/>
+        <input type="text" id="resultMinutes" readonly placeholder="จำนวนนาที" style="width: 100%; margin-top: 10px"/>
       </div>
     </div>
     <script>
@@ -161,7 +154,6 @@
         const endDateTimeInput = document.getElementById("endDateTime").value;
         const daysToSubtractInput =
           document.getElementById("daysToSubtract").value;
-
         if (
           !startDateTimeInput ||
           !endDateTimeInput ||
