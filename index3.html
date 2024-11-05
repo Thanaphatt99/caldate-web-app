@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>โปรแกรมคำนวณวันเดินทางไปราชการ</title>
+    <style>
+      body {
+        /* font-family: "Arial", sans-serif;
+        background-color: #F0F0F2;
+        color: #333; */
+        font-family: "Arial", sans-serif;
+        background-color: #eaf4f8; /* พื้นหลังสีฟ้าอ่อน */
+        color: #34495e; /* สีตัวอักษรหลัก */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .container {
+        display: flex;
+        /* background: white; */
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 8px;
+        /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        width: 800px;
+        text-align: left;
+        /* transition: transform 0.2s; */
+        transition: transform 0.2s;
+      }
+      .container:hover {
+        transform: scale(1.02);
+      }
+      .inputs {
+        flex: 1;
+      }
+      .result {
+        margin-left: 20px;
+        width: 300px;
+        padding: 20px;
+        /* background-color: #bddef2; */
+        background-color: #d1ecf1; /* พื้นหลังสีฟ้าอ่อน */
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .result-title {
+        font-size: 24px;
+        font-weight: bold;
+
+        margin-bottom: 10px;
+      }
+      .result-subtitle {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        margin-top: 10px;
+      }
+      .result-item {
+        font-size: 16px;
+        color: #333;
+        margin: 5px 0;
+      }
+      input {
+        margin: 10px 0;
+        padding: 10px;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        transition: border-color 0.3s;
+      }
+      input:focus {
+        border-color: #4caf50;
+        outline: none;
+      }
+      button {
+        margin-top: 10px;
+        padding: 10px;
+        /* background-color: #4caf50;
+        color: white; */
+        background-color: #17a2b8;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s, transform 0.2s;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* เพิ่มเงา */
+      }
+      button:hover {
+        background-color: #45a049;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* เพิ่มเงาเมื่อ hover */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="inputs">
+        <h1
+          style="
+            font-size: 24px;
+            color: #000000;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+          "
+        >
+          โปรแกรมคำนวณวันเดินทางไปราชการ
+        </h1>
+
+        <label for="startDateTime">วันและเวลาเริ่มต้น:</label><br />
+        <input type="datetime-local" id="startDateTime" /><br />
+
+        <label for="endDateTime">วันและเวลาสิ้นสุด:</label><br />
+        <input type="datetime-local" id="endDateTime" /><br />
+
+        <label for="daysToSubtract">จำนวนวันหยุด:</label><br />
+        <input type="number" id="daysToSubtract" value="0" /><br />
+
+        <button onclick="calculateDifference()">คำนวณ</button>
+      </div>
+      <div class="result">
+        <div class="result-title">ผลลัพธ์</div>
+        <div class="result-subtitle">จำนวนวัน และ ชั่วโมง</div>
+        <input
+          type="text"
+          id="resultDays"
+          readonly
+          placeholder="จำนวนวัน"
+          style="width: 100%; margin-top: 10px"
+        />
+        <input
+          type="text"
+          id="resultHours"
+          readonly
+          placeholder="จำนวนชั่วโมง"
+          style="width: 100%; margin-top: 10px"
+        />
+        <input
+          type="text"
+          id="resultMinutes"
+          readonly
+          placeholder="จำนวนนาที"
+          style="width: 100%; margin-top: 10px"
+        />
+      </div>
+    </div>
+    <script>
+      function calculateDifference() {
+        const startDateTimeInput =
+          document.getElementById("startDateTime").value;
+        const endDateTimeInput = document.getElementById("endDateTime").value;
+        const daysToSubtractInput =
+          document.getElementById("daysToSubtract").value;
+
+        if (
+          !startDateTimeInput ||
+          !endDateTimeInput ||
+          daysToSubtractInput === ""
+        ) {
+          alert("กรุณากรอกข้อมูลให้ครบ");
+          return;
+        }
+
+        const startDateTime = new Date(startDateTimeInput);
+        const endDateTime = new Date(endDateTimeInput);
+        const daysToSubtract = parseInt(daysToSubtractInput);
+
+        if (endDateTime < startDateTime) {
+          document.getElementById("resultDays").value =
+            "กรุณาตรวจสอบวันและเวลา";
+          document.getElementById("resultHours").value = "";
+          document.getElementById("resultMinutes").value = "";
+          return;
+        }
+
+        const totalMinutes = (endDateTime - startDateTime) / (1000 * 60);
+        const days = Math.floor(totalMinutes / (24 * 60));
+        const hours = Math.floor((totalMinutes % (24 * 60)) / 60);
+        const minutes = totalMinutes % 60;
+
+        const adjustedDays = days - daysToSubtract;
+        const finalDays = Math.max(adjustedDays, 0);
+
+        document.getElementById("resultDays").value = `จำนวนวัน: ${finalDays}`;
+        document.getElementById("resultHours").value = `จำนวนชั่วโมง: ${hours}`;
+        document.getElementById(
+          "resultMinutes"
+        ).value = `จำนวนนาที: ${minutes}`;
+      }
+    </script>
+  </body>
+</html>
